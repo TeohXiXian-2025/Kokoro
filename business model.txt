@@ -1,0 +1,147 @@
+Here is the pitch content in English, with Japanese keywords where they add cultural relevance. Keep it short, data-driven, and pitch-ready.
+
+---
+
+## Slide 1: Problem & Market Opportunity
+
+### Pyramid: Market Layers
+
+```
+                    ▲
+                   / \
+                  /   \
+                 / TAM \
+                / $27.5B \
+               / (Japan Mental Health Market) \
+              /___________________________\
+             /                             \
+            /            SAM                \
+           /   ¥10.3B (SC/SSW + Hikikomori)  \
+          /___________________________________\
+         /                                     \
+        /                 SOM                   \
+       /      ¥15M per municipality / year       \
+      /        (Initial Pilot Validation)          \
+     /_____________________________________________\
+```
+
+### Core Problems
+
+| Issue | Data | Japanese Keyword |
+|---|---|---|
+| Child suicide | **529** (2024) | 命を守る (protect lives) |
+| Truancy (futoukou) | **354,000**, 12 years rising | 居場所がない (no ibasho) |
+| Hikikomori | **1.46M**, 610k aged 40-64 | 8050問題 |
+| Low counseling rate | **6%** utilization | 我慢の文化 (gaman culture) |
+
+### Market Size
+
+| Layer | Value | Basis |
+|---|---|---|
+| **TAM** | **$27.5B** (2025) | Japan mental health market |
+| **SAM** | **¥10.3B** | SC/SSW ¥8.6B + Hikikomori ¥1.7B |
+| **SOM** | **¥15M / municipality** | Initial pilot unit price |
+
+### Bottom Line
+
+**"An AI companion that catches a child's SOS 24/7."**
+
+
+## Slide 2: Solution
+
+### 4-Square Table
+
+| | **AR — Daily Check-in** | **VR — Practice Simulation** |
+|---|---|---|
+| **What** | AI companion appears on desk via phone camera. Voice or tap to log feelings. | VR space to practice "talking to teacher" or "asking a friend for help." |
+| **For whom** | Daily users (low friction) | Students with strong anxiety (immersive practice) |
+| **Japanese Keyword** | 気軽に話せる (easy to talk) | 練習してから本番へ (practice before real life) |
+
+| | **For Individuals** | **For Schools / Municipalities** |
+|---|---|---|
+| **Value** | Low-pressure emotional expression. Attachment through personal belonging → AI. | Anonymous aggregated class trends. Reduces teacher burden. |
+| **Data** | Private to user only | **No individual data shared.** Aggregates only. |
+| **Japanese Keyword** | ひとりじゃない (not alone) | 見守り、でも監視しない (watch over, not surveil) |
+
+### Competitor Comparison
+
+| Competitor | Form | Users | Weakness | Kokoro Differentiation |
+|---|---|---|---|---|
+| **emol** | Pure App | **300k** | No AR/VR | Belonging → AI attachment |
+| **Awarefy** | Pure App | **500k DL** | No school channel | School B2G channel |
+| **Toyama Metaverse** | Municipal pilot | Not productized | Low scalability | Belonging + AI integration |
+
+### Bottom Line
+
+**"An AI dwelling in a personal belonging draws out the child's 'help me'."**
+
+
+## Slide 3: Business Model & Customers
+
+### 3-Layer Revenue Pyramid
+
+```
+              ▲
+             / \
+            /   \
+           / 3rd  \
+          / Enterprise \
+         /  EAP ¥100k/mo \
+        /___________________\
+       /                     \
+      /        2nd            \
+     /   School SEL Module     \
+    /   ¥2.93M / school / year  \
+   /_____________________________\
+  /                               \
+ /             1st                 \
+/      Municipality B2G Contract    \
+/    ¥15M / municipality / year      \
+/_____________________________________\
+```
+
+### Customer Segments (Priority Order)
+
+| Priority | Customer | Budget Basis | Approach |
+|---|---|---|---|
+| **1** | Board of Education (Municipal) | **16 municipalities** already funded for mental health observation | Replicate Hokkaido model |
+| **2** | Municipal Welfare Dept. (Hikikomori) | **¥1.7B** (FY2026) | 340 cities/towns |
+| **3** | Private School Corporations | Own budget, faster decision | Early pilot |
+| **4** | EAP Providers (Channel) | Enterprise mental health market | Via partner |
+
+### Revenue Model
+
+| Revenue Source | Unit Price | Target Timing |
+|---|---|---|
+| Municipal B2G Contract | **¥15M / year** | 0-12 months |
+| School SEL License | **¥2.93M / school / year** | 12-24 months |
+| Enterprise EAP Channel | **¥100k / month / company** | 24-36 months |
+
+### Initial Operating Cost
+
+| Item | Monthly |
+|---|---|
+| Development (1 person) | ¥600k |
+| AI/3D Engineer (0.5 person) | ¥400k |
+| Operations (0.5 person) | ¥200k |
+| Infrastructure | ¥150k |
+| **Total** | **¥1.35M / month** |
+
+**Break-even: One municipal contract (¥15M/year) → immediate profitability**
+
+### Bottom Line
+
+**"Municipalities pay. Schools use. Children are saved."**
+
+
+## Slide Summary
+
+| Slide | Title | Visual | Key Message |
+|---|---|---|---|
+| **1** | Problem & Market Opportunity | Pyramid | 1.46M hikikomori, 529 child suicides |
+| **2** | Solution | 4-Square | Belonging → AI companion, AR daily + VR practice |
+| **3** | Business Model & Customers | Revenue Pyramid | Municipal B2G is core; one contract = break-even |
+
+---
+
+This is concise, data-backed, and pitch-ready. You can drop these directly into slides.
