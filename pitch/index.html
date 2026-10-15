@@ -5,24 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kokoro Pitch</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Lora:wght@400;500&family=Nunito:wght@400;600;700;800&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div id="viewport">
 <div id="stage">
 
-  <!-- ============ 0 · COLD OPEN ============ -->
-  <section class="slide dark" id="s-open" data-notes="(Hold up a real water bottle.) This is Mizuki's water bottle. Last week, it noticed she stopped drinking at lunch. [click] Her glasses noticed she stopped reading. Her bag noticed she left home late, three days in a row. [click] Alone, each was just a bad day. Together, they said what Mizuki couldn't. [~20s]">
-    <div class="open-glow"></div>
-    <div class="open-obj" data-svg="photo-bottle"></div>
-    <div class="open-text">
-      <p class="open-l1">This is Mizuki's water bottle.</p>
-      <p class="step open-l2">Last week, it noticed she <b>stopped drinking at lunch.</b></p>
-      <p class="step open-l2">Her glasses noticed she <b>stopped reading.</b><br>Her bag noticed she <b>left home late, three days in a row.</b></p>
-      <p class="step open-l3">Alone, each was just a bad day.<br><em>Together, they said what Mizuki couldn't.</em></p>
+  <!-- ============ 0 · INTRO ============ -->
+  <section class="slide intro" id="s-intro" data-title="Intro" data-notes="(Say nothing. Let the questions land in silence. Press → to skip a question if you're short on time.) [When KOKORO forms] Meet Kokoro: a council of little companions living inside the things a child already carries. [~25s]">
+    <div class="i-light">
+      <div class="i-meet" id="iMeet">Meet</div>
+      <div class="i-word" id="iWord"></div>
+      <div class="i-tag" id="iTag">What you can't say, <span class="hl">your things notice.</span></div>
     </div>
-    <div class="open-brand"><span class="logo-mark">心</span> KOKORO <span class="jp">こころ</span></div>
+    <div class="i-dark">
+      <canvas id="iRain" width="1600" height="900"></canvas>
+      <div class="i-grain"></div>
+      <div class="i-vig"></div>
+      <p class="iq" id="iq"></p>
+      <div class="i-night" id="iNight"></div>
+    </div>
+    <div class="i-bloom"></div>
+    <div class="i-rays"></div>
+    <div class="i-white"></div>
   </section>
 
   <!-- ============ 1 · PROBLEM ============ -->
@@ -70,7 +76,7 @@
   </section>
 
   <!-- ============ 3 · SOLUTION ① SUMMON ============ -->
-  <section class="slide" id="s-summon" data-notes="So we built Kokoro. Mizuki photographs the things she already carries every day. [shutter on the bottle] Our pipeline cuts out the object, rebuilds it in 3D, and gives it a heart. It becomes Mizu, who looks after her body. [capture glasses, bag, pencil case] Each object is its own AI agent with its own personality and its own part of her life: body, study, school, friends. She doesn't trust a stranger. These are HER things. [drag one, press Mizuki speaks] Notice she doesn't say 'I'm depressed'. She says 'my bag feels heavy'. Talking through an object is far easier. [~45s]">
+  <section class="slide" id="s-summon" data-notes="So we built Kokoro. Mizuki photographs the things she already carries every day. [shutter on the bottle] Our pipeline cuts out the object, rebuilds it in 3D, and gives it a heart. It becomes Mizu, who looks after her body. [capture glasses, bag, pencil case] Each object is its own AI agent with its own personality and its own part of her life: body, study, school, friends. She doesn't trust a stranger. These are HER things, and there's no limit: anything she carries can wake up. [once all four are awake, Mizuki talks to them on her own] Notice she doesn't say 'I'm depressed'. She says 'my bag feels heavy'. Talking through an object is far easier. [~45s]">
     <div class="kicker">02 · The solution · ① Summon <span class="jp">出会い</span></div>
     <h1 class="title sm">Snap a photo. <span class="hl">Your things wake up.</span></h1>
     <div class="summon-wrap">
@@ -78,9 +84,11 @@
         <div class="phone">
           <div class="phone-notch"></div>
           <div class="phone-screen">
-            <div class="desk"></div>
-            <div class="photo-obj" id="photoObj"></div>
-            <div class="brackets"><i></i><i></i><i></i><i></i></div>
+            <div class="viewfinder">
+              <img class="photo-obj" id="photoObj" alt="">
+              <div class="brackets"><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="cam-modes">VIDEO <b>PHOTO</b> PORTRAIT</div>
             <div class="scanline"></div>
             <div class="scan-status" id="scanStatus">Point at something you carry every day</div>
             <div class="flash"></div>
@@ -88,6 +96,7 @@
           <button class="shutter" id="shutter" aria-label="Take photo"><span></span></button>
         </div>
         <div class="obj-chips" id="objChips"></div>
+        <div class="photo-credit">Photos: Wikimedia Commons · Amraepowell (CC0), Ultra-lab (CC BY-SA 2.0), Mark Hillary (CC BY 2.0), GAlexandrova (CC BY-SA 4.0)</div>
       </div>
       <div class="stage3d-wrap" id="summonWrap">
         <canvas class="c3d" id="summonCanvas"></canvas>
@@ -98,7 +107,6 @@
         <div class="mizuki-bar">
           <div class="mz-av" data-svg="mizuki"></div>
           <div class="mz-bubble" id="summonMz"></div>
-          <button class="btn speak" id="summonSpeak">🎤 Mizuki speaks</button>
         </div>
       </div>
     </div>
@@ -108,7 +116,7 @@
   </section>
 
   <!-- ============ 4 · SOLUTION ② COUNCIL ============ -->
-  <section class="slide night" id="s-council" data-notes="This is the heart of Kokoro: the council. Every night, the companions compare notes. Chats stay private; only encrypted mood signals are shared. [press Run tonight's council] Mizu: she drank less. Megane: no reading. Kaban: late three days. Fude-pon: no friends mentioned. One worried companion is just a bad day. Two or more is a pattern. One chatbot is one witness; Kokoro is a council of witnesses, which means earlier signals AND fewer false alarms. And then, they don't report her. They ASK her. With her consent, they help her reach the counselor. [~50s]">
+  <section class="slide night" id="s-council" data-notes="This is the heart of Kokoro: the council. Every night, the companions compare notes. Chats stay private; only encrypted mood signals are shared. [the meeting plays by itself; → skips to the end] Listen: Mizu, she drank less. Megane, no reading. Kaban, late three days. Fude-pon, no friends mentioned. One worried companion is just a bad day. Two or more is a pattern. One chatbot is one witness; Kokoro is a council of witnesses, which means earlier signals AND fewer false alarms. And then, they don't report her. They ASK her. With her consent, they help her reach the counselor. [~50s]">
     <div class="kicker">02 · The solution · ② Council <span class="jp">会議</span> · multi-agent</div>
     <h1 class="title sm">Every night, the companions <span class="hl">compare notes.</span></h1>
     <div class="council-wrap">
@@ -122,10 +130,11 @@
         </div>
       </div>
       <div class="council-panel">
-        <div class="btn-row">
-          <button class="btn speak" id="councilSpeak">🎤 Mizuki speaks <small id="speakIdx">1/4</small></button>
-          <button class="btn moon" id="councilRun">🌙 Run tonight's council</button>
+        <div class="meet-head">
+          <span class="live-dot"></span><b id="meetClock">🌙 Tonight's council · 22:00</b>
+          <button class="btn replay" id="councilReplay">↻ Replay</button>
         </div>
+        <div class="minutes" id="minutes"></div>
         <div class="sig-title">Signals shared tonight <small>(tap to toggle)</small></div>
         <div class="signals" id="signals"></div>
         <div class="verdict" id="verdict"></div>
@@ -136,7 +145,7 @@
   </section>
 
   <!-- ============ 5 · SOLUTION ③ RESPOND / REHEARSE / WATCH / BUILD ============ -->
-  <section class="slide" id="s-respond" data-notes="The council's verdict drives the right help at the right level: encourage, suggest practice, or, with her consent, connect her to a counselor. Crisis words always go straight to help, 24/7. [Rehearse tab, press play] Many kids WANT help but freeze at the moment of asking, so they practice in VR first, with their companions beside them. [Watch over tab] The school sees only class 'mood weather', never names: watch over, not surveil. [Build tab] And it's buildable today with existing tools; our pilot is one city, three junior highs. [~35s]">
+  <section class="slide" id="s-respond" data-notes="The council's verdict drives the right help at the right level: encourage, suggest practice, or, with her consent, connect her to a counselor. Crisis words always go straight to help, 24/7. [Rehearse tab: it plays by itself] Many kids WANT help but freeze at the moment of asking, so they practice in VR first, with their companions beside them. Watch: she says 'I'm fine' first, which is what most kids do. Then she tries again, and the courage meter fills. [Watch over tab] The school sees only class 'mood weather', never names: watch over, not surveil. [Build tab] And it's buildable today with existing tools; our pilot is one city, three junior highs. [~35s]">
     <div class="kicker">02 · The solution · ③ Respond · Rehearse · Watch over</div>
     <h1 class="title sm">The right help, at the right level, <span class="hl">with her consent.</span></h1>
     <div class="tabs" id="respTabs">
@@ -160,21 +169,32 @@
       </div>
       <div class="pane" id="t-rehearse">
         <div class="vr-scene" id="vrScene">
-          <div class="vr-sky"></div>
-          <div class="vr-floor"></div>
-          <div class="vr-door"><div class="vr-sign">Counselor's room<br><span class="jp">相談室</span></div></div>
-          <div class="vr-teacher"><div class="t-head"></div><div class="t-body"></div><div class="vr-bub" id="vrTeacherBub"></div></div>
-          <div class="vr-mizuki"><div data-svg="mizuki"></div><div class="vr-bub" id="vrMzBub"></div></div>
-          <div class="vr-comps" id="vrComps"></div>
-          <div class="vr-coach vr-bub" id="vrCoachBub"></div>
+          <canvas class="c3d" id="vrCanvas"></canvas>
+          <div class="overlay3d" id="vrOverlay"></div>
+          <div class="vr-lens"><i></i><i></i></div>
+          <div class="vr-hud">
+            <span class="vr-rec"><i></i>VR · Unity · Meta Quest</span>
+            <div class="vr-right">
+              <div class="ladder"><span class="st done">⭐ Megane ✓</span><span class="st done">⭐⭐ Classmate ✓</span><span class="st now" id="vrStep3">⭐⭐⭐ Counselor</span></div>
+              <div class="courage">Courage <div class="bar"><i id="vrCourage"></i></div></div>
+            </div>
+          </div>
+          <div class="vr-msg" id="vrMsg">✨ Practice complete. Ready for the real thing.</div>
+          <div class="vr-choices" id="vrChoices"></div>
+          <div class="vr-sub" id="vrSub"><b>You (Mizuki)</b><span></span></div>
+          <div class="vr-headset" id="vrHeadset">🥽 Headset on…</div>
           <div class="confetti" id="confetti"></div>
-          <div class="vr-badge">VR · Unity · <span class="jp">練習してから本番へ</span> (practice, then the real thing)</div>
         </div>
         <div class="vr-side">
-          <button class="btn speak big" id="vrPlay">▶ Practice: "I'm not okay"</button>
+          <button class="btn speak big" id="vrPlay">↻ Replay practice</button>
           <p>Many children <b>want</b> help but freeze at the moment of asking. Rehearsal turns <i>"I want help"</i> into <i>"I asked for help."</i></p>
-          <p class="evi">📚 Unity VR practice reduced adolescent social anxiety, <b>d = 1.31</b>, still there at 3 months (RCT, 2026).</p>
-          <p class="evi">📚 <span class="ctry">JP</span> NHK <i>Project Aliens</i>: cute avatars helped Japanese teens open up.</p>
+          <p class="vr-tip">👆 Tap a choice in the headset to try it yourself. A wrong try is safe here.</p>
+          <div class="vr-res">
+            <div class="vr-res-h">📚 What the research says</div>
+            <div class="rp"><span class="rn">d = 1.31</span><span>Unity VR practice cut teen <b>social anxiety</b>, and it <b>lasted 3 months</b>.<small>Randomized trial · Depression &amp; Anxiety, 2026</small></span></div>
+            <div class="rp"><span class="rn"><span class="ctry">JP</span></span><span>Cute avatars in VR helped Japanese teens: <b>loneliness and depression improved</b>.<small>NHK <i>Project Aliens</i> · Fujita 2025</small></span></div>
+            <div class="rp"><span class="rn">11→31%</span><span>A Japanese virtual space nearly <b>tripled</b> regular attendance for students out of school.<small>MEXT / Koganei City, 2024</small></span></div>
+          </div>
         </div>
       </div>
       <div class="pane" id="t-watch">
@@ -194,7 +214,7 @@
         <div class="build">
           <div class="arch">
             <div class="arch-row"><div class="node phone-n">📱 Phone app<small>photo · AR check-in · on-device encryption</small></div><i>→</i><div class="node">🧊 Photo → 3D<small>segmentation + Gaussian Splatting → toon rig (Unity)</small></div></div>
-            <div class="arch-row"><div class="node">🎭 4 LLM agents<small>own persona, memory, domain</small></div><i>⇄</i><div class="node council-n">🌙 Council service<small>mood vectors · rules + ML · 2-of-N agreement</small></div></div>
+            <div class="arch-row"><div class="node">🎭 One LLM agent per object<small>no limit: snap anything · own persona, memory, domain</small></div><i>⇄</i><div class="node council-n">🌙 Council service<small>mood vectors · rules + ML · 2-of-N agreement</small></div></div>
             <div class="arch-row"><div class="node safe">⚠️ Crisis guardrail<small>hard-coded, 24/7 hotline hand-off</small></div><i>→</i><div class="node">🏫 School dashboard<small>k ≥ 10 anonymity · consent hand-off to SC/SSW</small></div></div>
             <div class="proof">
               <div><b>Every part exists today</b>Unity AR/VR (used in the Niigata & Okayama studies) · commercial LLM APIs · phone 3D capture (Gaussian Splatting)</div>
@@ -205,7 +225,7 @@
           <div class="road">
             <h4>Roadmap: 12 months to a paid city contract</h4>
             <ol>
-              <li><b>Q1</b> MVP: 4 object types, AR check-in, single agents</li>
+              <li><b>Q1</b> MVP: snap any object → agent, AR check-in</li>
               <li><b>Q2</b> Council + crisis protocol, reviewed with clinicians</li>
               <li><b>Q3</b> Pilot: 1 city · 3 junior highs · ~1,000 students</li>
               <li><b>Q4</b> VR rehearsal · results → first ¥15M contract</li>
@@ -222,14 +242,14 @@
     <div class="kicker">03 · Why Kokoro wins</div>
     <h1 class="title sm">Others wait for children to speak. <span class="hl">Kokoro notices.</span></h1>
     <table class="cmp" id="cmpTable">
-      <thead><tr><th></th><th>Traditional care<small>school counselor · hotline</small></th><th>Existing apps<small>emol · Awarefy · MIRAIノート</small></th><th class="us">Kokoro</th><th class="res">📚 Research that backs it<small>hover a row to see the figure</small></th></tr></thead>
+      <thead><tr><th></th><th>Traditional care<small>school counselor · hotline</small></th><th>Existing apps<small>emol · Awarefy · MIRAIノート</small></th><th class="us">Kokoro</th><th class="res">📚 Research that backs it<small>hover a research cell to see its figure</small></th></tr></thead>
       <tbody>
-        <tr data-fig="03_kumazaki2018_robots.png" data-cap="Kumazaki et al. 2018 (Frontiers in Psychiatry), Kanazawa & Osaka Univ."><td>First step</td><td>Walk into the counselor's room, where peers can see</td><td>Download a "mental health app" = admit you need help</td><td class="us">Talk to <b>your own</b> water bottle</td><td class="res"><span class="ctry">JP</span> Teens told a <b>simple robot more than a human</b> (Kumazaki 2018). Children told a robot what they hid on forms (Cambridge 2022)</td></tr>
-        <tr data-fig="10b_mext_metaverse_attendance.png" data-cap="MEXT-commissioned study, Koganei City (2024): attendance in a game-like education metaverse"><td>Staying engaged</td><td>Scheduled, formal, intimidating</td><td>One generic chatbot, stock avatar</td><td class="us">30-sec ritual · companions <b>grow</b> with care</td><td class="res"><span class="ctry">JP</span> emol chatbot trial: <b>96 eligible teens → 0 completed</b> (Fujita 2025). Game-like metaverse: attendance <b>11% → 31%</b> (MEXT 2024)</td></tr>
-        <tr data-fig="05_xu2019_multisensor_pipeline.png" data-cap="Xu et al. 2019 (ACM IMWUT): multi-sensor depression detection pipeline"><td>Spotting risk</td><td>Once-a-term survey</td><td>One chatbot = <b>one witness</b></td><td class="us"><b>Council of 4 witnesses</b> cross-checks daily</td><td class="res">Combining signals detects depression <b>9.7% better</b> (Xu 2019). <span class="ctry">JP</span> ML screening already in <b>170 schools</b> (RAMPS, U. Tokyo)</td></tr>
-        <tr data-fig="09b_unity_vr_exposure_results.jpg" data-cap="Azimisefat et al. 2026 (Depression & Anxiety): Unity VR exposure, results over time"><td>Practice asking</td><td>Verbal advice only</td><td>None</td><td class="us"><b>VR rehearsal</b> with companions beside you</td><td class="res">Unity VR practice cut teen social anxiety, <b>d = 1.31</b>, lasting 3 months (RCT 2026). <span class="ctry">JP</span> NHK <i>Project Aliens</i></td></tr>
-        <tr data-fig="04_ramps_school_screening.png" data-cap="RAMPS school screening (Univ. of Tokyo / JSCP): reaching students who don't ask for help"><td>School bridge</td><td>Reacts after futoukou starts</td><td>B2C only, no school link</td><td class="us">Anonymous <b>class mood weather</b> + consent hand-off</td><td class="res"><span class="ctry">JP</span> Toda City AI risk score: <b>18 schools, ~90% rated it reliable</b>. Schools already trust data, but only <i>after</i> absences</td></tr>
-        <tr data-fig="06_niigata_unity_ar_character_result.jpg" data-cap="Shirai, Kondo & Imura 2020 (Scientific Reports), Niigata Univ.: children avoided the AR character's path"><td>Feels real</td><td>—</td><td>Flat 2D screen</td><td class="us"><b>3D companion in AR</b> on your desk</td><td class="res"><span class="ctry">JP</span> Children 5–10 behaved as if a <b>Unity AR character was really there</b> (Niigata, Sci Rep 2020)</td></tr>
+        <tr data-fig="03_kumazaki2018_robots.png" data-cap="Kumazaki et al. 2018 (Frontiers in Psychiatry): teens talked longer to the simple CommU robot (top) than to a human interviewer."><td>First step</td><td>Walk into the counselor's room, where peers can see</td><td>Download a "mental health app" = admit you need help</td><td class="us">Talk to <b>your own</b> water bottle</td><td class="res"><span class="ctry">JP</span> Teens told a <b>simple robot more than a human</b> (Kumazaki 2018). Children told a robot what they hid on forms (Cambridge 2022)</td></tr>
+        <tr data-fig="10b_mext_metaverse_attendance.png" data-cap="MEXT / Koganei City 2024: students attending 40%+ of days in the learning metaverse rose from 11% to 31%."><td>Staying engaged</td><td>Scheduled, formal, intimidating</td><td>One generic chatbot, stock avatar</td><td class="us">30-sec ritual · companions <b>grow</b> with care</td><td class="res"><span class="ctry">JP</span> emol chatbot trial: <b>96 eligible teens → 0 completed</b> (Fujita 2025). Game-like metaverse: attendance <b>11% → 31%</b> (MEXT 2024)</td></tr>
+        <tr data-fig="05_xu2019_multisensor_pipeline.png" data-cap="Xu et al. 2019 (ACM IMWUT): phone, calls, location, sleep and steps combined into one model, 9.7% better than any single signal."><td>Spotting risk</td><td>Once-a-term survey</td><td>One chatbot = <b>one witness</b></td><td class="us">A <b>council of witnesses</b>: every object she adds cross-checks daily</td><td class="res">Combining several everyday signals detects depression <b>9.7% better</b> than any single one (Xu 2019). The same approach flagged students <b>getting worse</b> over a semester (Chikersal 2021)</td></tr>
+        <tr data-fig="09b_unity_vr_exposure_results.jpg" data-cap="Azimisefat et al. 2026 (Depression & Anxiety): social anxiety scores drop with VR practice + CBT and stay lower at 3 months."><td>Practice asking</td><td>Verbal advice only</td><td>None</td><td class="us"><b>VR rehearsal</b> with companions beside you</td><td class="res">Unity VR practice cut teen social anxiety, <b>d = 1.31</b>, lasting 3 months (RCT 2026). <span class="ctry">JP</span> NHK <i>Project Aliens</i></td></tr>
+        <tr data-fig="04_ramps_school_screening.png" data-cap="RAMPS (Univ. of Tokyo / JSCP): whole-school screening designed to reach &quot;high-risk students nobody has noticed, who don't ask for help&quot;."><td>School bridge</td><td>Reacts after futoukou starts</td><td>B2C only, no school link</td><td class="us">Anonymous <b>class mood weather</b> + consent hand-off</td><td class="res"><span class="ctry">JP</span> Schools already screen to reach students <b>who won't ask</b>: RAMPS in <b>~170 schools</b> (U. Tokyo). Toda City's AI risk score: 18 schools, ~90% rated it reliable. Both act <i>after</i> a survey or absences</td></tr>
+        <tr data-fig="06_niigata_unity_ar_character_result.jpg" data-cap="Shirai, Kondo &amp; Imura 2020 (Scientific Reports), Niigata Univ.: most children avoided the path where the AR character stood, as if it were really there."><td>Feels real</td><td>—</td><td>Flat 2D screen</td><td class="us"><b>3D companion in AR</b> on your desk</td><td class="res"><span class="ctry">JP</span> Children 5–10 behaved as if a <b>Unity AR character was really there</b> (Niigata, Sci Rep 2020)</td></tr>
       </tbody>
     </table>
     <div class="cmp-foot">Research backs each building block. Our pilot tests the full Kokoro system. <b>No product we found turns a child's own belongings into agents that cross-check each other.</b></div>
@@ -262,40 +282,69 @@
   </section>
 
   <!-- ============ 8 · SOCIAL IMPACT ============ -->
-  <section class="slide center" id="s-impact" data-notes="What does that mean for Japan? A million children with someone to talk to every day. Tens of thousands reached before they stop going to school. And we stop the 8050 problem at 14, not at 50. But this isn't only Japan's problem. South Korea has the highest suicide rate in the OECD. Taiwan, Hong Kong and Singapore share the same culture of saving face. Worldwide, one in seven adolescents lives with a mental disorder. And every child, everywhere, has a favorite thing. Japan is the world's early-warning country; what we solve here, we can take everywhere. [~30s]">
+  <section class="slide" id="s-impact" data-notes="[Step 1] Here's what changes for one child. Without Kokoro, Mizuki says she's fine, stops going to school by month three, and her mom quits her job to stay home with her. With Kokoro, the council notices on day three, and on day five she talks to Ms. Sato. She's still in class, and her mom keeps her job. [→] Now scale that up. One child. Then her school, where teachers finally see where to look. A pilot city, then 200 cities and a million children across Japan, on the tablets every student already has. And this isn't only a social cost: futoukou costs Japan about 497 billion yen a year just in parents who leave work. Then East Asia: Korea already pays isolated teens a monthly allowance, so the buyer exists. And everywhere: one in seven teens lives with a mental disorder, and every child has a favorite thing. [~40s]">
     <div class="kicker">05 · Social impact</div>
-    <h1 class="title sm">Built for Japan's silence. <span class="hl">Ready for the world's.</span></h1>
-    <div class="impact">
-      <div class="jp-impact">
-        <h3><span class="ctry">JP</span> In Japan, by year 5</h3>
-        <div class="imp"><div class="inum">1,000,000</div><div>children with someone to talk to <b>every day</b>, on nights and weekends too</div></div>
-        <div class="imp"><div class="inum">35,000</div><div>children reached <b>before</b> they stop going to school (10% of today's 354k futoukou)</div></div>
-        <div class="imp"><div class="inum">8050 → 14</div><div>We stop the <b>8050 problem</b> (parents in their 80s caring for withdrawn children in their 50s) at age 14, not at 50</div></div>
-        <div class="imp"><div class="inum">0</div><div>names shared without consent. Teachers learn <b>where</b> to look, not <b>who</b>, without adding to the longest work week in the OECD</div></div>
-      </div>
-      <div class="ripple-col">
-        <div class="ripple" id="ripple">
-          <div class="ring r3"><span class="rl">🌍 World · 2031+</span></div>
-          <div class="ring r2"><span class="rl">🌏 East Asia · 2029</span></div>
-          <div class="ring r1"><span class="rl"><span class="ctry">JP</span> 2027</span></div>
-          <div class="core">心</div>
+    <h1 class="title sm imp-title">
+      <span class="t1">For Mizuki, help came on <span class="hl">day 5</span>, not month 3.</span>
+      <span class="t2">One child, then a school, a country, <span class="hl">the world.</span></span>
+    </h1>
+    <div class="imp-stage">
+      <!-- step 1: one child, with vs without -->
+      <div class="lives">
+        <div class="tl without">
+          <div class="tl-lab">Without<br>Kokoro</div>
+          <div class="tl-line">
+            <div class="stop"><i>😶</i><b>Week 1</b><span>"I'm fine."</span></div>
+            <div class="stop"><i>🏠</i><b>Month 3</b><span>stops going to school</span></div>
+            <div class="stop"><i>💼</i><b>Month 6</b><span>mom quits her job to stay home</span></div>
+            <div class="stop"><i>🚪</i><b>Age 20</b><span>still isolated at home</span></div>
+          </div>
         </div>
-        <div class="intl">
-          <div class="ic step"><b><span class="ctry">KR</span> South Korea</b> · highest suicide rate in the OECD; "reclusive youth" is now a national policy issue</div>
-          <div class="ic step"><b><span class="ctry">TW</span> <span class="ctry">HK</span> <span class="ctry">SG</span> Taiwan · Hong Kong · Singapore</b> · the same "save face" silence (<span class="jp">面子 · 체면</span>)</div>
-          <div class="ic step"><b>🌍 Everywhere</b> · <b>1 in 7</b> adolescents live with a mental disorder; suicide is a top-3 cause of death at ages 15–29 (WHO). <b>Every child has a favorite thing.</b></div>
+        <div class="tl with">
+          <div class="tl-lab">With<br>Kokoro</div>
+          <div class="tl-line">
+            <div class="stop"><i>🎒</i><b>Day 3</b><span>the council notices</span></div>
+            <div class="stop"><i>💬</i><b>Day 5</b><span>she talks to Ms. Sato</span></div>
+            <div class="stop"><i>🏫</i><b>Month 3</b><span>still in class</span></div>
+            <div class="stop"><i>💼</i><b>Month 6</b><span>mom keeps her job</span></div>
+          </div>
+        </div>
+        <div class="lives-hint">Press → to zoom out</div>
+      </div>
+
+      <!-- step 2: from one child to the world -->
+      <div class="grow">
+        <div class="tiers">
+          <span class="tier child">👧 Child</span>
+          <span class="tier school">🏫 School</span>
+          <span class="tier society">🏙️ Society &amp; market</span>
+          <span class="tier world">🌏 World</span>
+        </div>
+        <div class="path">
+          <div class="path-line"></div>
+          <div class="walker" id="impWalker" data-svg="mizuki"></div>
+          <div class="gnode child"><div class="dot">👧</div><div class="nt">Mizuki</div><div class="nb">Day 5</div><div class="ns">help comes before she stops going to school</div></div>
+          <div class="gnode school"><div class="dot">🏫</div><div class="nt">Her school</div><div class="nb">Where to look</div><div class="ns">class mood weather, no names, no extra teacher hours</div></div>
+          <div class="gnode society"><div class="dot">🏙️</div><div class="nt">Pilot city · 2027</div><div class="nb">~1,000</div><div class="ns">students in 3 junior highs, measured outcomes</div></div>
+          <div class="gnode society"><div class="dot">🗾</div><div class="nt">Japan · 2031</div><div class="nb">1M children</div><div class="ns">200 cities, on the GIGA tablets every student already has</div></div>
+          <div class="gnode world"><div class="dot">🌏</div><div class="nt">East Asia · 2029+</div><div class="nb">KR · TW</div><div class="ns">Korea already pays isolated teens 650,000 won a month: the buyer exists</div></div>
+          <div class="gnode world"><div class="dot">🌍</div><div class="nt">Everywhere</div><div class="nb">1 in 7</div><div class="ns">teens live with a mental disorder (WHO). Every child has a favorite thing.</div></div>
+        </div>
+        <div class="imp-foot">
+          <div class="mk"><span class="mk-n">¥497B<small>/ yr</small></span><span>What futoukou costs Japan in <b>parents who quit work</b>. A child kept in school keeps a parent at work: why employers buy <b>Kokoro for Work</b>.<small>Insource Research Institute, 2026</small></span></div>
+          <div class="mk"><span class="mk-n">¥27B<small>/ yr</small></span><span>A new market: <b>preventive</b> child mental health for Japan's schools and cities.<small>9M students × ¥3,000</small></span></div>
+          <div class="sdgs"><span>SDG 3.4 · Mental health &amp; well-being</span><span>SDG 4.a · Safe, inclusive schools</span></div>
         </div>
       </div>
     </div>
-    <div class="sdg"><span>SDG 3 · Good health & well-being</span><span>SDG 4 · Quality education</span><span>SDG 10 · Reduced inequalities</span><span class="jp">ひとりじゃない · you're not alone</span></div>
   </section>
 
   <!-- ============ 9 · TAGLINE ============ -->
-  <section class="slide finale" id="s-end" data-notes="Mizuki asked for help on a Tuesday. Her bag walked her to the counselor's door. Children in Japan are taught gaman: hold it in. Kokoro doesn't ask them to stop. It gives the things they already love a voice. 言えないことは、モノが気づく. What you can't say, your things notice. Thank you. [~20s]">
+  <section class="slide finale" id="s-end" data-title="Tagline" data-notes="Mizuki asked for help on a Tuesday. Her companions cheered her all the way to the counselor's door. [the door opens, she walks to it] Children in Japan are taught gaman: hold it in. Kokoro doesn't ask them to stop. It gives the things they already love a voice. 言えないことは、モノが気づく. What you can't say, your things notice. Thank you. [~20s]">
     <canvas class="c3d" id="endCanvas"></canvas>
     <div class="overlay3d" id="endOverlay"></div>
     <div class="end-text">
-      <p class="end-story">Mizuki asked for help on a Tuesday.<br>Her bag walked her to the counselor's door.</p>
+      <p class="end-story">Mizuki asked for help on a Tuesday.<br>Her companions cheered her all the way to the counselor's door.</p>
       <h1 class="tagline jp">言えないことは、<br>モノが気づく。</h1>
       <h2 class="tagline-en">What you can't say, <span class="hl">your things notice.</span></h2>
       <div class="end-brand"><span class="logo-mark">心</span> KOKORO · <span class="muted">Thank you · ありがとうございました</span></div>
@@ -306,6 +355,7 @@
 </div>
 
 <!-- chrome -->
+<button id="soundBtn" title="Voices on/off (M)"></button>
 <div id="nav">
   <button id="prevBtn" aria-label="Previous">‹</button>
   <div id="dots"></div>

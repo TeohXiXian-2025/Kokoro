@@ -6,10 +6,13 @@
   const mat = (c, o = {}) => new T.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.55, metalness: 0 }, o));
 
   const DEFS = {
-    bottle:  { id: 'bottle',  name: 'Mizu',     jp: 'みず',   object: 'Water bottle', domain: 'Body',    looks: 'energy · sleep · appetite',   color: '#5bb8f5', pitch: 1.75, rate: 1.06 },
-    glasses: { id: 'glasses', name: 'Megane',   jp: 'めがね', object: 'Glasses',      domain: 'Study',   looks: 'focus · pressure',            color: '#9a7bf0', pitch: 1.35, rate: 1.0 },
-    bag:     { id: 'bag',     name: 'Kaban',    jp: 'かばん', object: 'School bag',   domain: 'School',  looks: 'getting there · attendance',  color: '#f26d6d', pitch: 1.1,  rate: 0.98 },
-    pencil:  { id: 'pencil',  name: 'Fude-pon', jp: 'ふでぽん', object: 'Pencil case', domain: 'Friends', looks: 'class · belonging',          color: '#e9a92e', pitch: 1.95, rate: 1.12 },
+    bottle:  { id: 'bottle',  name: 'Mizu',     jp: 'みず',   object: 'Water bottle', domain: 'Body',    looks: 'energy · sleep · appetite',   color: '#3f8fe8', pitch: 1.75, rate: 1.06 },
+    glasses: { id: 'glasses', name: 'Megane',   jp: 'めがね', object: 'Glasses',      domain: 'Study',   looks: 'focus · pressure',            color: '#7d7591', pitch: 1.35, rate: 1.0 },
+    bag:     { id: 'bag',     name: 'Kaban',    jp: 'かばん', object: 'School bag',   domain: 'School',  looks: 'getting there · attendance',  color: '#d8394a', pitch: 1.1,  rate: 0.98 },
+    pencil:  { id: 'pencil',  name: 'Fude-pon', jp: 'ふでぽん', object: 'Pencil case', domain: 'Friends', looks: 'class · belonging',          color: '#4f7be0', pitch: 1.95, rate: 1.12 },
+    // not a companion: the school counselor in the VR rehearsal
+    mizuki:  { id: 'mizuki',  name: 'Mizuki',   jp: 'みずき', color: '#e0567a', pitch: 1.2, rate: 0.95 },
+    sato:    { id: 'sato',    name: 'Ms. Sato', jp: 'さとう先生', color: '#5b7fd6', pitch: 0.95, rate: 0.95 },
   };
 
   /* ---------- shared parts ---------- */
@@ -97,101 +100,167 @@
     return s;
   }
 
-  /* ---------- the four companions ---------- */
+  /* ---------- the four companions (colors match the real objects in the phone photos) ---------- */
   function buildBottle(m) {
-    const R = 0.55;
-    m.add(new T.Mesh(new T.CapsuleGeometry(R, 0.9, 10, 32), mat(0x9ad8ff)));
-    const label = new T.Mesh(new T.CylinderGeometry(R + 0.012, R + 0.012, 0.42, 40, 1, true), mat(0xffffff, { side: T.DoubleSide }));
-    label.position.y = -0.4; m.add(label);
-    const drop = new T.Mesh(new T.SphereGeometry(0.09, 16, 12), mat(0x4aa8ec));
-    drop.scale.set(1, 1.25, 0.5); drop.position.set(0, -0.4, R + 0.02); m.add(drop);
-    const cap = new T.Mesh(new T.CylinderGeometry(0.36, 0.42, 0.32, 32), mat(0xff9fb6));
-    cap.position.y = 1.08; m.add(cap);
-    const loop = new T.Mesh(new T.TorusGeometry(0.14, 0.045, 12, 24), mat(0xff9fb6));
-    loop.position.y = 1.33; m.add(loop);
+    // glossy blue metal bottle with a black loop cap
+    const R = 0.55, BLUE = 0x3f8fe8;
+    m.add(new T.Mesh(new T.CapsuleGeometry(R, 0.9, 10, 32), mat(BLUE, { roughness: 0.22, metalness: 0.15 })));
+    const shine = new T.Mesh(new T.CapsuleGeometry(0.06, 0.62, 6, 12), new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.45 }));
+    shine.position.set(-0.3, 0.05, 0.45); shine.rotation.y = -0.6; m.add(shine);
+    const ring = new T.Mesh(new T.CylinderGeometry(0.4, 0.42, 0.1, 32), mat(0xd9dde4, { roughness: 0.2, metalness: 0.7 }));
+    ring.position.y = 0.95; m.add(ring);
+    const cap = new T.Mesh(new T.CylinderGeometry(0.3, 0.4, 0.34, 32), mat(0x2b2833, { roughness: 0.45 }));
+    cap.position.y = 1.15; m.add(cap);
+    const loop = new T.Mesh(new T.TorusGeometry(0.15, 0.055, 12, 24), mat(0x2b2833, { roughness: 0.45 }));
+    loop.position.y = 1.42; m.add(loop);
     const face = addFace(m, { y: 0.28, gap: 0.2, zAt: (x) => Math.sqrt(Math.max(R * R - x * x, 0)) });
-    addFeet(m, -1.02, 0.24, 0x6fb9ea);
-    const arms = addArms(m, 0.0, 0.56, 0x9ad8ff);
-    return { face, arms, lift: 1.12, head: 1.55 };
+    addFeet(m, -1.02, 0.24, 0x2f74c8);
+    const arms = addArms(m, 0.0, 0.56, BLUE);
+    return { face, arms, lift: 1.12, head: 1.65 };
   }
 
   function buildGlasses(m) {
+    // soft round buddy wearing big black round frames, temples poking out like ears
     const R = 0.85, SY = 0.95;
-    const body = new T.Mesh(new T.SphereGeometry(R, 40, 30), mat(0xc9b6ff));
+    const body = new T.Mesh(new T.SphereGeometry(R, 40, 30), mat(0xf4ebe1));
     body.scale.set(1, SY, 0.95); m.add(body);
     const zAt = (x, y) => R * 0.95 * Math.sqrt(Math.max(1 - (x / R) ** 2 - (y / (R * SY)) ** 2, 0));
     const face = addFace(m, { y: 0.06, gap: 0.3, zAt });
-    const frameMat = mat(0x4a3b7a, { roughness: 0.3 });
+    const frameMat = mat(0x23212a, { roughness: 0.35 });
     for (const sx of [-1, 1]) {
-      const x = sx * 0.3, z = zAt(x, 0.06) + 0.05;
-      const ring = new T.Mesh(new T.TorusGeometry(0.2, 0.035, 12, 36), frameMat);
+      const x = sx * 0.32, z = zAt(x, 0.06) + 0.06;
+      const ring = new T.Mesh(new T.TorusGeometry(0.27, 0.05, 14, 40), frameMat);
       ring.position.set(x, 0.06, z); ring.rotation.y = Math.atan2(x, z) * 0.6;
       m.add(ring);
-      const lens = new T.Mesh(new T.CircleGeometry(0.19, 30), new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, depthWrite: false }));
+      const lens = new T.Mesh(new T.CircleGeometry(0.25, 30), new T.MeshBasicMaterial({ color: 0xdff1ff, transparent: true, opacity: 0.22, depthWrite: false }));
       lens.position.copy(ring.position); lens.rotation.copy(ring.rotation); m.add(lens);
+      const temple = new T.Mesh(new T.CapsuleGeometry(0.04, 0.42, 6, 10), frameMat);
+      temple.rotation.x = Math.PI / 2; temple.position.set(sx * 0.82, 0.1, 0.1); m.add(temple);
     }
-    const bridge = new T.Mesh(new T.CylinderGeometry(0.025, 0.025, 0.2, 8), frameMat);
-    bridge.rotation.z = Math.PI / 2; bridge.position.set(0, 0.12, zAt(0, 0.12) + 0.05); m.add(bridge);
-    const stem = new T.Mesh(new T.CylinderGeometry(0.025, 0.03, 0.22, 8), mat(0x3fa66b));
-    stem.position.set(0, 0.88, 0); m.add(stem);
-    for (const sx of [-1, 1]) {
-      const leaf = new T.Mesh(new T.SphereGeometry(0.1, 14, 10), mat(0x6fd6a0));
-      leaf.scale.set(1.5, 0.45, 0.8); leaf.position.set(sx * 0.13, 1.0, 0); leaf.rotation.z = sx * 0.5;
-      m.add(leaf);
-    }
-    const book = new T.Mesh(new T.BoxGeometry(0.34, 0.44, 0.08), mat(0xff9fb6));
+    const bridge = new T.Mesh(new T.CylinderGeometry(0.035, 0.035, 0.16, 8), frameMat);
+    bridge.rotation.z = Math.PI / 2; bridge.position.set(0, 0.14, zAt(0, 0.14) + 0.06); m.add(bridge);
+    const book = new T.Mesh(new T.BoxGeometry(0.34, 0.44, 0.08), mat(0x5b8fe0));
     book.position.set(-0.86, -0.38, 0.3); book.rotation.set(0.1, 0.5, 0.2); m.add(book);
-    addFeet(m, -0.78, 0.3, 0xa995ef);
-    const arms = addArms(m, -0.15, 0.8, 0xc9b6ff);
+    addFeet(m, -0.78, 0.3, 0x3a3644);
+    const arms = addArms(m, -0.15, 0.8, 0xf4ebe1);
     return { face, arms, lift: 0.86, head: 1.25 };
   }
 
   function buildBag(m) {
-    const D = 0.7, BT = 0.12;
+    // red leather satchel: darker flap, two strap buckles, thin shoulder strap
+    const D = 0.7, BT = 0.12, RED = 0xd8394a, DARK = 0xb32a3a;
     const g = new T.ExtrudeGeometry(roundedRectShape(1.5, 1.4, 0.32), { depth: D, bevelEnabled: true, bevelThickness: BT, bevelSize: 0.1, bevelSegments: 6, curveSegments: 18 });
     g.center();
-    m.add(new T.Mesh(g, mat(0xff8a80)));
+    m.add(new T.Mesh(g, mat(RED, { roughness: 0.4 })));
     const front = D / 2 + BT;
-    const fg = new T.ExtrudeGeometry(roundedRectShape(1.46, 0.72, 0.22), { depth: 0.06, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 3, curveSegments: 14 });
+    const fg = new T.ExtrudeGeometry(roundedRectShape(1.46, 0.78, 0.22), { depth: 0.06, bevelEnabled: true, bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 3, curveSegments: 14 });
     fg.center();
-    const flap = new T.Mesh(fg, mat(0xe9605a));
-    flap.position.set(0, 0.42, front + 0.02); m.add(flap);
-    const clasp = new T.Mesh(new T.CylinderGeometry(0.09, 0.09, 0.06, 20), mat(0xffd36e, { metalness: 0.3, roughness: 0.3 }));
-    clasp.rotation.x = Math.PI / 2; clasp.position.set(0, 0.1, front + 0.08); m.add(clasp);
-    const handle = new T.Mesh(new T.TorusGeometry(0.3, 0.06, 12, 30, Math.PI), mat(0xe9605a));
-    handle.position.y = 0.8; m.add(handle);
-    const face = addFace(m, { y: -0.3, gap: 0.24, zAt: () => front });
-    addFeet(m, -0.86, 0.38, 0xe9605a);
-    const arms = addArms(m, -0.1, 0.86, 0xff8a80);
-    return { face, arms, lift: 0.96, head: 1.15 };
+    const flap = new T.Mesh(fg, mat(DARK, { roughness: 0.4 }));
+    flap.position.set(0, 0.38, front + 0.02); m.add(flap);
+    const metal = mat(0xdfe2e8, { roughness: 0.2, metalness: 0.7 });
+    for (const sx of [-1, 1]) {
+      const strap = new T.Mesh(new T.BoxGeometry(0.14, 0.62, 0.04), mat(DARK, { roughness: 0.4 }));
+      strap.position.set(sx * 0.42, 0.12, front + 0.09); m.add(strap);
+      const buckle = new T.Mesh(new T.TorusGeometry(0.08, 0.022, 8, 4), metal);
+      buckle.rotation.z = Math.PI / 4; buckle.position.set(sx * 0.42, 0.06, front + 0.12); m.add(buckle);
+    }
+    const strapG = new T.Mesh(new T.TorusGeometry(0.72, 0.04, 10, 40, Math.PI), mat(DARK, { roughness: 0.4 }));
+    strapG.position.set(0, 0.6, -0.1); strapG.rotation.x = -0.25; m.add(strapG);
+    const face = addFace(m, { y: -0.36, gap: 0.24, zAt: () => front });
+    addFeet(m, -0.86, 0.38, DARK);
+    const arms = addArms(m, -0.1, 0.86, RED);
+    return { face, arms, lift: 0.96, head: 1.4 };
   }
 
   function buildPencil(m) {
-    const R = 0.5;
-    const body = new T.Mesh(new T.CapsuleGeometry(R, 1.1, 10, 32), mat(0xffd36e));
+    // navy pouch with a colourful school print, red zip, pencils poking out of one end
+    const R = 0.5, NAVY = 0x2f5cc8;
+    const body = new T.Mesh(new T.CapsuleGeometry(R, 1.1, 10, 32), mat(NAVY, { roughness: 0.7 }));
     body.rotation.z = Math.PI / 2; m.add(body);
-    const zip = new T.Mesh(new T.CylinderGeometry(0.03, 0.03, 1.5, 8), mat(0xd99a2b));
+    // tiny print: little dots and squares in school colours on the back and sides
+    const prints = [0xffd36e, 0xff6f7f, 0xffffff, 0x6fd6a0];
+    for (let i = 0; i < 14; i++) {
+      const a = (i / 14) * Math.PI * 2 + 0.3, x = -0.72 + (i % 7) * 0.24;
+      const y = Math.sin(a) * R * 0.98, z = Math.cos(a) * R * 0.98;
+      if (z > 0.2 && Math.abs(y) < 0.3 && Math.abs(x) < 0.45) continue;   // keep the face area clean
+      const dot = new T.Mesh(i % 2 ? new T.SphereGeometry(0.045, 8, 6) : new T.BoxGeometry(0.07, 0.07, 0.02), mat(prints[i % 4]));
+      dot.position.set(x, y, z); dot.lookAt(x, y * 2, z * 2); m.add(dot);
+    }
+    const zip = new T.Mesh(new T.CylinderGeometry(0.035, 0.035, 1.5, 8), mat(0xe0353f));
     zip.rotation.z = Math.PI / 2; zip.position.set(0, R - 0.01, 0); m.add(zip);
-    const pull = new T.Mesh(new T.TorusGeometry(0.07, 0.025, 8, 16), mat(0xff8fab));
+    const pull = new T.Mesh(new T.TorusGeometry(0.075, 0.025, 8, 16), mat(0xe0353f));
     pull.position.set(0.78, R + 0.02, 0.05); m.add(pull);
-    const pencil = new T.Group();
-    const shaft = new T.Mesh(new T.CylinderGeometry(0.075, 0.075, 0.75, 6), mat(0x6fd6b0));
-    const tipW = new T.Mesh(new T.ConeGeometry(0.075, 0.16, 6), mat(0xf5d9b0));
-    tipW.position.y = 0.455;
-    const lead = new T.Mesh(new T.ConeGeometry(0.028, 0.06, 6), mat(INK));
-    lead.position.y = 0.55;
-    const eraser = new T.Mesh(new T.CylinderGeometry(0.075, 0.075, 0.12, 12), mat(0xff8fab));
-    eraser.position.y = -0.43;
-    pencil.add(shaft, tipW, lead, eraser);
-    pencil.position.set(0.45, 0.62, -0.05); pencil.rotation.z = -0.55;
-    m.add(pencil);
+    [[0xe94b4b, -0.55, 0.78], [0x3fb36b, -0.35, 0.62], [0xa86a3c, -0.75, 0.66]].forEach(([c, rot, len], i) => {
+      const pencil = new T.Group();
+      const shaft = new T.Mesh(new T.CylinderGeometry(0.06, 0.06, len, 6), mat(c));
+      const wood = new T.Mesh(new T.ConeGeometry(0.06, 0.14, 6), mat(0xf5d9b0));
+      wood.position.y = len / 2 + 0.07;
+      const lead = new T.Mesh(new T.ConeGeometry(0.022, 0.05, 6), mat(c));
+      lead.position.y = len / 2 + 0.15;
+      pencil.add(shaft, wood, lead);
+      pencil.position.set(-0.55 - i * 0.12, 0.6, -0.12 + i * 0.1); pencil.rotation.z = -rot;
+      m.add(pencil);
+    });
     const face = addFace(m, { y: 0.02, gap: 0.24, zAt: (x, y) => Math.sqrt(Math.max(R * R - y * y, 0)) });
-    addFeet(m, -0.5, 0.42, 0xe0b04a);
-    const arms = addArms(m, -0.05, 1.08, 0xffd36e);
-    return { face, arms, lift: 0.6, head: 1.25 };
+    addFeet(m, -0.5, 0.42, 0x23468f);
+    const arms = addArms(m, -0.05, 1.08, NAVY);
+    return { face, arms, lift: 0.6, head: 1.35 };
   }
 
-  const BUILDERS = { bottle: buildBottle, glasses: buildGlasses, bag: buildBag, pencil: buildPencil };
+  // Ms. Sato: a soft, chibi-style adult in the same clay look as the companions
+  function buildSato(m) {
+    const HY = 1.65, HR = 0.6;
+    const body = new T.Mesh(new T.CapsuleGeometry(0.6, 0.85, 10, 32), mat(0x8fa9e8));
+    m.add(body);
+    const shirt = new T.Mesh(new T.SphereGeometry(0.2, 16, 12), mat(0xffffff));
+    shirt.scale.set(1.3, 0.8, 0.5); shirt.position.set(0, 0.82, 0.5); m.add(shirt);
+    const badge = new T.Mesh(new T.BoxGeometry(0.26, 0.14, 0.04), mat(0xffd36e));
+    badge.position.set(0.3, 0.42, 0.58); badge.rotation.y = 0.45; m.add(badge);
+    const head = new T.Mesh(new T.SphereGeometry(HR, 40, 30), mat(0xffe2cf));
+    head.position.y = HY; m.add(head);
+    const hair = new T.Mesh(new T.SphereGeometry(HR + 0.05, 40, 24, 0, Math.PI * 2, 0, Math.PI * 0.56), mat(0x4a3640));
+    hair.position.set(0, HY + 0.02, -0.04); hair.rotation.x = -0.42; m.add(hair);
+    const bun = new T.Mesh(new T.SphereGeometry(0.24, 24, 18), mat(0x4a3640));
+    bun.position.set(0, HY + 0.5, -0.36); m.add(bun);
+    const face = addFace(m, { y: HY - 0.02, gap: 0.21, zAt: (x, y) => Math.sqrt(Math.max(HR * HR - x * x - (y - HY) * (y - HY), 0)) });
+    addFeet(m, -1.02, 0.26, 0x5b4a5e);
+    const arms = addArms(m, 0.62, 0.62, 0x8fa9e8);
+    return { face, arms, lift: 1.12, head: 3.15 };
+  }
+
+  // Mizuki in 3D: sailor uniform, bob haircut, yellow hair clip, a determined (confident) face
+  function buildMizuki(m) {
+    const HY = 1.25, HR = 0.56, NAVY = 0x2f3f73, SKIN = 0xfde3d3, HAIR = 0x221a2e;
+    const top = new T.Mesh(new T.CapsuleGeometry(0.4, 0.35, 10, 28), mat(NAVY));
+    top.position.y = 0.2; m.add(top);
+    const skirt = new T.Mesh(new T.CylinderGeometry(0.42, 0.62, 0.42, 24), mat(NAVY));
+    skirt.position.y = -0.22; m.add(skirt);
+    const collar = new T.Mesh(new T.TorusGeometry(0.3, 0.07, 10, 28), mat(0xffffff));
+    collar.rotation.x = Math.PI / 2 - 0.25; collar.position.set(0, 0.6, 0.05); m.add(collar);
+    const ribbon = new T.Mesh(new T.ConeGeometry(0.11, 0.2, 4), mat(0xe0567a));
+    ribbon.rotation.z = Math.PI; ribbon.position.set(0, 0.42, 0.4); m.add(ribbon);
+    for (const sx of [-1, 1]) {
+      const leg = new T.Mesh(new T.CapsuleGeometry(0.09, 0.32, 6, 10), mat(SKIN));
+      leg.position.set(sx * 0.2, -0.62, 0); m.add(leg);
+    }
+    const head = new T.Mesh(new T.SphereGeometry(HR, 40, 30), mat(SKIN));
+    head.position.y = HY; m.add(head);
+    const hair = new T.Mesh(new T.SphereGeometry(HR + 0.05, 40, 24, 0, Math.PI * 2, 0, Math.PI * 0.5), mat(HAIR));
+    hair.position.set(0, HY + 0.02, -0.03); hair.rotation.x = -0.38; m.add(hair);
+    // bob around the sides and back, open at the front so her face shows
+    const bob = new T.Mesh(new T.CylinderGeometry(0.6, 0.66, 0.62, 32, 1, true, Math.PI * 0.3, Math.PI * 1.4), mat(HAIR, { side: T.DoubleSide }));
+    bob.position.set(0, HY - 0.16, -0.04); m.add(bob);
+    const clip = new T.Mesh(new T.BoxGeometry(0.22, 0.07, 0.06), mat(0xffd36e));
+    clip.position.set(0.3, HY + 0.38, 0.33); clip.rotation.set(-0.5, 0.4, -0.4); m.add(clip);
+    const face = addFace(m, { y: HY - 0.04, gap: 0.19, zAt: (x, y) => Math.sqrt(Math.max(HR * HR - x * x - (y - HY) * (y - HY), 0)) });
+    face.brows.forEach((b, i) => { b.visible = true; b.rotation.z = Math.PI / 2 - (i ? 1 : -1) * 0.3; });
+    face.smile.scale.set(1.35, 1.35, 1);
+    addFeet(m, -0.86, 0.2, 0x3a2a35);
+    const arms = addArms(m, 0.42, 0.44, NAVY);
+    return { face, arms, lift: 1.02, head: 2.05 };
+  }
+
+  const BUILDERS = { mizuki: buildMizuki, bottle: buildBottle, glasses: buildGlasses, bag: buildBag, pencil: buildPencil, sato: buildSato };
 
   /* ---------- Avatar (one agent) ---------- */
   class Avatar {
@@ -465,8 +534,23 @@
       this.avatars.forEach(a => a.update(this.t, dt));
       this.effects = this.effects.filter(f => !f(dt));
       this.onTick && this.onTick(dt, this.t);
-      this.renderer.render(this.scene, this.camera);
-      this._placeBubbles();
+      if (this.stereo) this._renderStereo();
+      else { this.renderer.render(this.scene, this.camera); this._placeBubbles(); }
+    }
+    // headset view: one image per eye, side by side, each from a slightly shifted camera
+    _renderStereo() {
+      const w = this.canvas.clientWidth, h = this.canvas.clientHeight, r = this.renderer, cam = this.camera;
+      cam.updateMatrixWorld();
+      const right = new T.Vector3().setFromMatrixColumn(cam.matrixWorld, 0), base = cam.position.clone();
+      cam.aspect = w / 2 / h; cam.updateProjectionMatrix();
+      r.setScissorTest(true);
+      [-1, 1].forEach((sx, i) => {
+        cam.position.copy(base).addScaledVector(right, sx * 0.1);
+        r.setViewport(i * w / 2, 0, w / 2, h); r.setScissor(i * w / 2, 0, w / 2, h);
+        r.render(this.scene, cam);
+      });
+      r.setScissorTest(false); r.setViewport(0, 0, w, h);
+      cam.position.copy(base); cam.aspect = w / h; cam.updateProjectionMatrix();
     }
   }
 
